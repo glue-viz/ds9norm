@@ -2,7 +2,7 @@ ds9norm
 =======
 
 This file implements a matplotlib Normalize object
-which mimics the functionality of image scaling functions in [ds9](http://ds9.si.edu/site/Home.html). It provides 5 ways of configuring image scaling:
+which mimics the functionality of image scaling functions in [ds9](http://ds9.si.edu/site/Home.html). It provides several ways of configuring image scaling:
 
   - Clipping the low and high intensities at specified percentiles (`clip_lo`, `clip_hi`)
   - Specifying an intensity transfer function for ramping from black to white
