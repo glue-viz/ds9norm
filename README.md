@@ -37,3 +37,11 @@ for ax, stretch in zip(axs[0], ['linear', 'sqrt', 'arcsinh']):
 ```
 
 ![ds9norm demo](gallery.png)
+
+Build Status
+------------
+
+[![Build Status](https://travis-ci.org/glue-viz/ds9norm.png)]
+(https://travis-ci.org/glue-viz/ds9norm?branch=master)
+[![Coverage Status](https://coveralls.io/repos/glue-viz/ds9norm/badge.png)]
+(https://coveralls.io/r/glue-viz/ds9norm)
