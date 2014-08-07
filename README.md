@@ -15,7 +15,7 @@ which mimics the functionality of image scaling functions in [ds9](http://ds9.si
 Examples
 --------
 
-See the [example notebook]()
+See the [example notebook](http://nbviewer.ipython.org/github/glue-viz/ds9norm/blob/master/Examples.ipynb)
 
 ```python
 
