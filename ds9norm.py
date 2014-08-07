@@ -136,6 +136,7 @@ warpers = dict(linear=linear_warp,
 # for mpl <= 1.1, Normalize is an old-style class
 # explicitly inheriting from object allows property to work
 class DS9Normalize(Normalize, object):
+
     """
     A Matplotlib Normalize object that implements DS9's image stretching
 
@@ -145,10 +146,10 @@ class DS9Normalize(Normalize, object):
         Which stretch function to use. Defaults to 'linear'
     clip_lo : number
         Where to clip the minimum image intensity. Expressed as a percentile
-        of the range of intensity values. Defaults to 5
+        of the range of intensity values. Defaults to 0
     clip_hi : number
         Where to clip the maximum image intensity. Expressed as a percentile
-        of the range of intensity values. Defaults to 95
+        of the range of intensity values. Defaults to 100
     bias : float
         The location of the middle-grey value,
         relative to the [clip_lo, clip_hi] range. Defaults to 0.5
@@ -159,13 +160,31 @@ class DS9Normalize(Normalize, object):
 
     def __init__(self, stretch='linear',
                  bias=0.5, contrast=1.0,
-                 clip_lo=5., clip_hi=95.):
+                 clip_lo=0., clip_hi=100.):
         super(DS9Normalize, self).__init__()
         self.stretch = stretch
         self.bias = bias
         self.contrast = contrast
         self.clip_lo = clip_lo
         self.clip_hi = clip_hi
+
+    @property
+    def clip_lo(self):
+        return self._clip_lo
+
+    @clip_lo.setter
+    def clip_lo(self, value):
+        self._clip_lo = value
+        self.vmin = self.vmax = None
+
+    @property
+    def clip_hi(self):
+        return self._clip_hi
+
+    @clip_hi.setter
+    def clip_hi(self, value):
+        self._clip_hi = value
+        self.vmin = self.vmax = None
 
     @property
     def stretch(self):
@@ -178,15 +197,19 @@ class DS9Normalize(Normalize, object):
                              (value, warpers.keys()))
         self._stretch = value
 
+    def autoscale(self, A):
+        self.update_clip(A)
+
+    def autoscale_None(self, A):
+        if self.vmin is None or self.vmax is None:
+            self.update_clip(A)
+
     def update_clip(self, image):
-        vmin, vmax = fast_limits(image, self.clip_lo, self.clip_hi)
-        self.vmin = vmin
-        self.vmax = vmax
+        self.vmin, self.vmax = fast_limits(image, self.clip_lo, self.clip_hi)
 
     def __call__(self, value, clip=False):
-        # XXX ignore clip
+        self.autoscale_None(value)
 
-        self.autoscale_None(value)  # set vmin, vmax if unset
         inverted = self.vmax <= self.vmin
 
         hi, lo = max(self.vmin, self.vmax), min(self.vmin, self.vmax)

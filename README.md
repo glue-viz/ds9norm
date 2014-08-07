@@ -21,19 +21,24 @@ See the [example notebook](http://nbviewer.ipython.org/github/glue-viz/ds9norm/b
 
 data = fits.getdata('M51.fits')
 norm = DS9Normalize(bias=0.2)
-figure, axs = plt.subplots(ncols=3, nrows=3, squeeze=False, tight_layout=True)
 
-for ax, bias in zip(axs[2], [.2, .5, .8]):
-    ax.imshow(data, norm=DS9Normalize(bias=bias))
-    ax.set_title('Bias = %0.1f' % bias)
+figure, axs = plt.subplots(ncols=4, nrows=4, squeeze=False, tight_layout=True)
 
-for ax, contrast in zip(axs[1], [0.5, 1, 2]):
+for ax, stretch in zip(axs[0], ['linear', 'sqrt', 'arcsinh', 'log']):
+    ax.imshow(data, norm=DS9Normalize(stretch=stretch))
+    ax.set_title(stretch)
+
+for ax, contrast in zip(axs[1], [0.5, 1, 2, -1]):
     ax.imshow(data, norm=DS9Normalize(contrast=contrast))
     ax.set_title('Contrast = %0.1f' % contrast)
 
-for ax, stretch in zip(axs[0], ['linear', 'sqrt', 'arcsinh']):
-    ax.imshow(data, norm=DS9Normalize(stretch=stretch))
-    ax.set_title(stretch)
+for ax, bias in zip(axs[2], [.2, .5, .8, .9]):
+    ax.imshow(data, norm=DS9Normalize(bias=bias))
+    ax.set_title('Bias = %0.1f' % bias)
+
+for ax, (lo, hi) in zip(axs[3], [(0, 100), (1, 99), (5, 95), (10, 90)]):
+    im = ax.imshow(data, norm=DS9Normalize(clip_lo=lo, clip_hi=hi))
+    ax.set_title('%i-%i%%' % (lo, hi))
 ```
 
 ![ds9norm demo](gallery.png)

@@ -103,8 +103,16 @@ class TestDS9Normalize(object):
     def test_update_clip(self):
         x = np.arange(101)
         self.norm.update_clip(x)
-        assert self.norm.vmin == 5
-        assert self.norm.vmax == 95
+        assert self.norm.vmin == 0
+        assert self.norm.vmax == 100
+
+    def test_autoscale_on_call(self):
+        x = np.arange(101)
+        self.norm.clip_lo = 7
+        self.norm.clip_hi = 16
+        self.norm(x)
+        np.testing.assert_array_almost_equal([self.norm.vmin, self.norm.vmax],
+                                             [7, 16])
 
     def test_update_clip_nans(self):
         x = np.zeros(5) * np.nan
