@@ -10,7 +10,7 @@ which mimics the functionality of image scaling functions in [ds9](http://ds9.si
   - Setting the mid-point of this transfer function (`bias`, akin to dragging
     the right mouse button left/right in ds9)
   - Setting how sharp the transition from black-white is (`contrast`, akin
-    to draggin the mouse button up/down in ds9)
+    to dragging the right mouse button up/down in ds9)
 
 Examples
 --------
