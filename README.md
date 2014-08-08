@@ -20,8 +20,6 @@ See the [example notebook](http://nbviewer.ipython.org/github/glue-viz/ds9norm/b
 ```python
 
 data = fits.getdata('M51.fits')
-norm = DS9Normalize(bias=0.2)
-
 figure, axs = plt.subplots(ncols=4, nrows=4, squeeze=False, tight_layout=True)
 
 for ax, stretch in zip(axs[0], ['linear', 'sqrt', 'arcsinh', 'log']):
